@@ -1,0 +1,33 @@
+version: '3.8'
+
+volumes:
+  mongodb:
+    driver: local
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - mongodb:/var/lib/mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: task_db
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    ports:
+      - "8081:8081"
+
+networks:
+  default:
+    name: mongodb_network

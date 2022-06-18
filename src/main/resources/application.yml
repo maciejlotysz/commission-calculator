@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: admin
+      password: admin
+      database: task_db
+      port: 27017
+      host: localhost
+  security:
+    user:
+      name: employee1
+      password: password
+
