@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.config.web.servlet.invoke
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
+import org.springframework.security.provisioning.UserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
@@ -26,4 +28,10 @@ class SecurityConfiguration{
         }
         return http.build()
     }
+
+    @Bean
+    fun userDetails(securityUsersProperties: SecurityUsersProperties): UserDetailsManager =
+        InMemoryUserDetailsManager(
+            securityUsersProperties.userCredentials.map { it.toUserDetails() }
+        )
 }

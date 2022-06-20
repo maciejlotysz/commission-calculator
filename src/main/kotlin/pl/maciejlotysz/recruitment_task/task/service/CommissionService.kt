@@ -11,7 +11,7 @@ import java.math.RoundingMode
 import java.time.LocalDateTime
 
 @Service
-class TransactionFeeService(
+class CommissionService(
     private val transactionsDataProvider: TransactionsDataProvider,
     private val commissionRepository: CommissionRepository,
     private val feeWageDataProvider: FeeWageDataProvider,
@@ -80,7 +80,7 @@ class TransactionFeeService(
             customerId = transactionFee.customer.customerId,
             commissionAmount = transactionFee.feeValue,
             calculationDate = LocalDateTime.now()
-        ).run { commissionRepository.insert(this) }
+        ).run { commissionRepository.save(this) }
     }
 
     private fun getCommissionForCustomer(customerId: Long): TransactionFee {
@@ -110,6 +110,6 @@ class TransactionFeeService(
     companion object {
         val ONE_HUNDRED = BigDecimal(100)
         private const val  errorMsg = "Wrong input - only numbers or a word ALL (capitalized) are allowed!"
-        val logger: Logger = LoggerFactory.getLogger(TransactionFeeService::class.java)
+        val logger: Logger = LoggerFactory.getLogger(CommissionService::class.java)
     }
 }

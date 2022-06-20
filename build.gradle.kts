@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -15,6 +17,8 @@ repositories {
 	mavenCentral()
 }
 
+extra["testcontainersVersion"] = "1.17.2"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-security")
@@ -23,9 +27,24 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.opencsv:opencsv:5.6")
-	implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.3.0")
+	implementation("com.ninja-squad:springmockk:3.1.1")
+	implementation("org.springdoc:springdoc-openapi-data-rest:1.6.9")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.9")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+	testImplementation("io.mockk:mockk:1.12.4")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:mongodb:1.17.2")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+	}
 }
 
 tasks.withType<KotlinCompile> {
@@ -37,4 +56,9 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+		exceptionFormat = TestExceptionFormat.FULL
+		events = setOf(TestLogEvent.STARTED, TestLogEvent.SKIPPED, TestLogEvent.PASSED, TestLogEvent.FAILED)
+		showStandardStreams = true
+	}
 }

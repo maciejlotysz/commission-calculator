@@ -5,19 +5,19 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import pl.maciejlotysz.recruitment_task.task.model.Customer
 import pl.maciejlotysz.recruitment_task.task.model.TransactionFee
-import pl.maciejlotysz.recruitment_task.task.service.TransactionFeeService
+import pl.maciejlotysz.recruitment_task.task.service.CommissionService
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/fees")
 class TransactionFeeController(
-    private val transactionFeeService: TransactionFeeService,
+    private val commissionService: CommissionService,
 ) {
 
     @GetMapping("/calculate-commission")
     fun getTransactionValueForCustomer(@RequestParam customerId: List<String>): List<TransactionFeeDto> =
-        transactionFeeService.calculateCommission(customerId).map { TransactionFeeDto(it) }
+        commissionService.calculateCommission(customerId).map { TransactionFeeDto(it) }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler

@@ -6,7 +6,7 @@ spring:
       password: admin
       database: task_db
       port: 27017
-      host: mongo
+      host: localhost
 
 security:
   userCredentials:
