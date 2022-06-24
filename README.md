@@ -1,4 +1,4 @@
-# Digital-Colliers-recruitment-task 2.0
+# Commision Calculator
 
 This is REST API for simple web application with single endpoint to get calculated commissions of bank's users transaction.
 A whole application has been written in Kotlin and requires jdk17.
